@@ -7,14 +7,14 @@ Welcome to the Mexico Real Estate Analysis project repository. This project is d
 ## Data Sources
 The housing data is collected from three separate CSV files:
 
-1. `Housing-in-Mexico.csv`
-    - Description: ![image](https://github.com/kamibrenda/RealEstate_Mexico_Analytics/assets/42267047/89aca5d6-9a7e-48a1-812b-2419395eafea)
+1. `Mexico_dataset1.csv`
+    - Description: ![image](https://github.com/kamibrenda/RealEstate_Mexico_Analytics/assets/42267047/6412ccd2-5821-40b6-ab31-082c14d1bae7)
 
-2. `Housing-in-Mexico - 2.csv`
-    - Description: ![image](https://github.com/kamibrenda/RealEstate_Mexico_Analytics/assets/42267047/7f751ca3-edd4-4e0d-9e9e-832b1f834b6e)
-   
-3. `Housing-in-Mexico - 3.csv`
-    - Description: ![image](https://github.com/kamibrenda/RealEstate_Mexico_Analytics/assets/42267047/cc9e9edd-bea2-4588-b84a-8a33f61473f4)
+2. `Mexico_dataset2csv`
+    - Description: ![image](https://github.com/kamibrenda/RealEstate_Mexico_Analytics/assets/42267047/31b48863-142b-4b4b-bb3a-aeb2883514f1)
+
+3. `Mexico_dataset3.csv`
+    - Description:![image](https://github.com/kamibrenda/RealEstate_Mexico_Analytics/assets/42267047/e26c199b-d965-4761-90bc-176967dc80a2)
 
 ## Project Structure
 The notebook is organized into the following sections:
