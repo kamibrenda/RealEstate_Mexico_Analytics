@@ -19,69 +19,72 @@ import matplotlib.pyplot as plt #for visualisation
 # In[3]:
 
 
-#importing the dataset in csv format
-dfa = pd.read_csv ("Housing-in-Mexico.csv")
-dfb = pd.read_csv ("Housing-in-Mexico - 2.csv")
-dfc = pd.read_csv ("Housing-in-Mexico - 3.csv")
+# importing the dataset in csv format
+dfa = pd.read_csv("Mexico_dataset1.csv", encoding = "ISO-8859-1")
+dfb = pd.read_csv("Mexico_dataset2.csv", encoding='ISO-8859-2')
+dfc = pd.read_csv("Mexico_dataset3.csv", encoding='ISO-8859-3')
 
 
 # In[4]:
 
 
-#Making a copy of the dataframe
-dfacopy = dfa.copy()
+dfa.head()
 
 
 # In[5]:
 
 
-dfbcopy = dfb.copy()
+dfb.head()
 
 
 # In[6]:
 
 
-dfccopy = dfc.copy()
+dfc.head()
 
 
-# # Data Wrangling
+# ## Data Wrangling
 
 # In[7]:
+
+
+#Making a copy of the dataframe
+dfacopy = dfa.copy()
+dfacopy.info()
+
+
+# In[8]:
+
+
+#Making a copy of the dataframe and checking for its datatypes
+dfbcopy = dfb.copy()
+dfbcopy.info()
+
+
+# In[9]:
+
+
+dfccopy = dfc.copy()
+dfccopy.info()
+
+
+# In[10]:
 
 
 #Checking for the shape of the dataset i.e the number of observations and features
 dfacopy.shape
 
 
-# In[8]:
+# In[11]:
 
 
 dfbcopy.shape
 
 
-# In[9]:
-
-
-dfccopy.shape
-
-
-# In[10]:
-
-
-#Checking for the datatypes of the dataset
-dfacopy.info()
-
-
-# In[11]:
-
-
-dfbcopy.info()
-
-
 # In[12]:
 
 
-dfccopy.info()
+dfccopy.shape
 
 
 # In[13]:
@@ -122,6 +125,19 @@ dfacopy.price_usd[0:10]
 # In[18]:
 
 
+#Dropping null values
+dfacopy.dropna(inplace=True)
+
+
+# In[19]:
+
+
+dfacopy.info()
+
+
+# In[20]:
+
+
 # Ensure 'price' column is of string data type
 dfacopy['price_usd'] = dfacopy['price_usd'].astype(str)
 
@@ -137,39 +153,43 @@ dfacopy.info()
 dfacopy.head()
 
 
-# In[19]:
-
-
-#dfbcopy.head(20)
-dfbcopy.info()
-dfbcopy.dropna(inplace=True)
-
-
-# In[20]:
-
-
-#Convert pesos to usd
-#dfbcopy["price_usd"] = dfbcopy["price_mxn"] / 19
- 
-"""To drop a column that is not needed or in use then use the method"""
-#dfbcopy.drop(columns= ["price_mxn"], inplace=True)
-
-
 # In[21]:
 
 
-dfccopy.head()
+dfbcopy.dropna(inplace=True)
+dfbcopy.shape
 
 
 # In[22]:
 
 
-# Ensure 'price' column is of string data type
-dfccopy['price_usd'] = dfccopy['price_usd'].astype(str)
-dfccopy.head()
+dfbcopy.head()
 
 
 # In[23]:
+
+
+#Convert pesos to usd
+dfbcopy["price_usd"] = dfbcopy["price_mxn"] / 19
+ 
+"""To drop a column that is not needed or in use then use the method"""
+dfbcopy.drop(columns= ["price_mxn"], inplace=True)
+
+
+# In[24]:
+
+
+dfbcopy.head()
+
+
+# In[25]:
+
+
+dfccopy.info()
+dfccopy.head()
+
+
+# In[26]:
 
 
 #Drop null values from dataframe 3
@@ -180,11 +200,11 @@ dfccopy[["lat", "lon"]] = dfccopy["lat-lon"].str.split(",", expand=True)
 dfccopy.head()
 
 
-# In[24]:
+# In[27]:
 
 
 #Create "state" column for dfccopy
-dfccopy["state"] = dfccopy["place_with_parent_names"].str.split("|", expand =True)
+dfccopy["state"] = dfccopy["place_with_parent_names"].str.split("|", expand =True)[2].head()
 
 #Drop the column "place_with_parent_names" and "lat-lon" from df3---highlighted out as the column is dropped 
 dfccopy.drop(columns=["place_with_parent_names" , "lat-lon"], inplace=True)  
@@ -192,7 +212,7 @@ dfccopy.drop(columns=["place_with_parent_names" , "lat-lon"], inplace=True)
 dfccopy.head(5)
 
 
-# In[25]:
+# In[28]:
 
 
 #Concatenation of the 3 cleaned datasets
@@ -200,50 +220,58 @@ final_df = pd.concat([dfacopy, dfbcopy, dfccopy])
 final_df.info()
 
 
-# In[26]:
-
-
-finalcpy_df = final_df.copy()
-finalcpy_df.head()
-finalcpy_df.info()
-
-
-# In[27]:
-
-
-#Saving the final dataframe to a CSV file
-final_df.to_csv("C:\\Users\\admin\\Desktop\\Personal_stuff\\Datascience_Pandas_with_python\\Proj1_Housing.csv", index = False)
-finalcpy_df.to_csv("C:\\Users\\admin\\Desktop\\Personal_stuff\\Datascience_Pandas_with_python\\Proj1_Housing.csv", index = False)
-
-
-# # Exploratory Data Analysis
-
-# In[28]:
-
-
-#Loading the clean and conctenated dataset
-finalcpy_df = pd.read_csv("Proj1_Housing.csv")
-
-
 # In[29]:
 
 
-finalcpy_df.shape
+#Saving the final dataframe to a CSV file
+final_df.to_csv("C:\\Users\\admin\\Desktop\\Personal_stuff\\Datascience_Pandas_with_python\\Proj1_Housing\\Mexico_clean_final.csv", index = False)
 
 
 # In[30]:
 
 
+#Creating a copy of the final Dataframe 
+finalcpy_df = final_df.copy()
+
+#Saving the copied dataframe 
+finalcpy_df.to_csv("C:\\Users\\admin\\Desktop\\Personal_stuff\\Datascience_Pandas_with_python\\Proj1_Housing\\Mexico_cleancpy_final.csv", index = False)
+
+
+# # Exploratory Data Analysis
+
+# In[31]:
+
+
+finalcpy_df.info()
+finalcpy_df.head()
+
+
+# In[32]:
+
+
+#Loading the clean and conctenated dataset
+finalcpy_df = pd.read_csv("Mexico_cleancpy_final.csv")
+
+
+# In[33]:
+
+
+finalcpy_df.shape
+
+
+# In[34]:
+
+
 finalcpy_df.info()
 
 
-# In[31]:
+# In[35]:
 
 
 final_df.head(20)
 
 
-# In[32]:
+# In[36]:
 
 
 #Importing the neccessary libraries for EDA
@@ -271,21 +299,21 @@ fig.show()
 
 # ### Categorical Data
 
-# In[33]:
+# In[37]:
 
 
 #Displaying the number of unique values in the "state" column
 finalcpy_df["state"].nunique()
 
 
-# In[34]:
+# In[38]:
 
 
 #Displaying the unique value in the "state" column
 finalcpy_df["state"].unique()
 
 
-# In[35]:
+# In[39]:
 
 
 #Displaying the value count of the unique values in the "state" column 
@@ -294,7 +322,7 @@ finalcpy_df["state"].value_counts().head(10)
 
 # # Descriptive Statistics
 
-# In[36]:
+# In[40]:
 
 
 finalcpy_df[["area_m2","price_usd"]].describe()
@@ -304,35 +332,35 @@ finalcpy_df[["area_m2","price_usd"]].describe()
 
 # ### Histogram to compare the frequency distribution between "area_m2" and "price_usd"
 
-# In[37]:
+# In[41]:
 
 
 #AREA_M2
-plt.hist(finalcpy_df["area_m2"] , rwidth=0.8, bins=10)
+plt.hist(finalcpy_df["area_m2"] , bins=10)
 plt.xlabel("Area [sq meters]")
 plt.ylabel("Frequency")
 plt.title("Distribution of Home Sizes");
 
 
 # ### Conclusion
-# The histogram which shows the frequency distribution of the column "area_m2" which is normally distributed.
+# The histogram above is skewed to the right which is demonstated with most of the home size distribution data lying between 50 sq. metres to 200 sq. metres.
 
-# In[38]:
+# In[42]:
 
 
 #PRICE_USD
-plt.hist(finalcpy_df["price_usd"], rwidth=0.8, bins=10)
+plt.hist(finalcpy_df["price_usd"], bins=10)
 plt.xlabel("Price USD")
 plt.ylabel("Frequency")
 plt.title("Distribution of Home Prices");
 
 
 # ### Conclusion
-# The price_usd column is skewed to the left and most of the prices paid range between 0 to 300,000 USD
+# The price_usd column is skewed to the right and most of the prices paid range between 50,000 to 150,000 USD
 
 # ### Boxplot to compare the frequency distribution between "area_m2" and "price_usd"
 
-# In[39]:
+# In[43]:
 
 
 #AREA_M2
@@ -342,9 +370,9 @@ plt.ylabel("Frequency")
 plt.title("Distribution of Home Sizes");
 
 
-# From the box plot of the area_m2 the distribution is fairly centralised  but most of the properties lie on the lower bounds of the box plot and thus most properties are smaller in size.
+# From the box plot of the area_m2 the box plot is skewed to the right as most of the properties lie on the lower bounds of the box plot and thus most properties are smaller in size.
 
-# In[40]:
+# In[44]:
 
 
 #PRICE_USD
@@ -355,19 +383,19 @@ plt.title("Distribution of Home Prices");
 
 
 # ### Conclusion
-# From the box plot of the price_usd the distribution is fairly centralised  but most of the properties lie on the lower bounds of the box plot and thus most people are paying less than 200,000 USD
+# From the box plot of the price_usd the distribution is skewed to the right with the presence of outliers that are present outside the whiskers.
 
 # ## Research Questions for further analysis
 
 # 1. Which state has the most expensive real estate market?
 
-# In[41]:
+# In[45]:
 
 
 finalcpy_df.head()
 
 
-# In[42]:
+# In[46]:
 
 
 #Calculating price per m2 using "price_usd" and "area_m2"
@@ -375,7 +403,7 @@ finalcpy_df["price_per_m2"] = finalcpy_df["price_usd"] / finalcpy_df["area_m2"]
 finalcpy_df.head()
 
 
-# In[43]:
+# In[47]:
 
 
 #Using the groupby method with visualisation
@@ -392,10 +420,10 @@ finalcpy_df.head()
     )
 );
 
-
+From the bar chart above, it is shown that the most expensive state to live in would be Distrito Federal.
 # 2. Is there a relationship between home size and price?
 
-# In[44]:
+# In[48]:
 
 
 #Creating a scatter plot to compare "price_usd" vs "Area_m2"
@@ -406,7 +434,9 @@ plt.title("Area [sq meters]")
 plt.show()  # This line is added to display the plot
 
 
-# In[45]:
+# From the scatterplot above, comparing a relationship between the price and area there is a positive correlation thus meaning, an increase in house size results in an increase in price.
+
+# In[49]:
 
 
 #Calculation of the correlation between the 2 data points
@@ -417,35 +447,41 @@ print("Correlation of 'area_m2' and 'price_usd' (all Mexico):", p_correlation)
 
 
 # ### Conclusion
-# From the visualisation above comparing the price to the area there is little to no correlation according to the result. Hence neither directly influence each other. From the correlation done comparing the 2 data points a 0.06 is an indicator and mathematical representation of the lack of relationship.
+# From the correlation done comparing the 2 data points, the correlation coefficient is over 0.5, so there's a moderate relationship house size and price in Mexico.
 
 # ### Subsetting the Dataframe 
 
-# In[46]:
+# In[50]:
 
 
 #Subseting to analyse the state of "Pahang"
-df_pahang =  finalcpy_df[finalcpy_df["state"] == "Pahang"]
-df_pahang.head()
+df_guerrero =  finalcpy_df[finalcpy_df["state"] == "Guerrero"]
+df_guerrero.head()
 
 
-# In[47]:
+# In[51]:
 
 
 #A scatter plot of the state of Pahang comparing Price vs Area
-plt.scatter(x=df_pahang["area_m2"], y=df_pahang["price_usd"])
+plt.scatter(x=df_guerrero["area_m2"], y=df_guerrero["price_usd"])
 plt.xlabel("area_m2")
 plt.ylabel("price_usd")
-plt.title("Pahang: Price vs. Area")
+plt.title("Guerrero: Price vs. Area")
 
 
-# In[48]:
+# In[52]:
 
 
 #Calculating the correlation coeeficient of the state of Pahang
-p_correlation = df_pahang["area_m2"].corr(df_pahang["price_usd"])
-print("Correlation of 'area_m2' and 'price_usd' (Pahang):", p_correlation)
+p_correlation = df_guerrero["area_m2"].corr(df_guerrero["price_usd"])
+print("Correlation of 'area_m2' and 'price_usd' (Guerrero):", p_correlation)
 
 
 # ### Conclusion
-# From further analysis done specifically in the state of "Pahang" it is observed there is no relationship whatseoever between the area_m2 and the price_usd which is also backed up with the correlation of a 0 yet again to demonstrate the lack of a relationship between the 2.
+# From further analysis done specifically in the state of "Guerrero" it is observed there is a relationshipbetween the area_m2 and the price_usd which is backed up with the correlation of 0.6 hence an increase in area_m2 results in an increase in the price.
+
+# In[ ]:
+
+
+
+
